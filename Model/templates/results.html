@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result - Wine Quality</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+
+    <div style="width: 100%; max-width: 800px; padding: 20px; box-sizing: border-box;">
+        <div style="background-image: url('static/assets/img/form-v9.jpg'); background-size: cover; background-position: center; border-radius: 10px; overflow: hidden; box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);">
+            
+            <div style="background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 10px; display: flex; flex-direction: column; gap: 24px; text-align: center;">
+                
+                <h2 style="margin: 0; color: #333; font-size: 28px; font-weight: 600;">Prediction Result</h2>
+                
+                <!-- Result Score Card -->
+                <div style="background-color: #eaf2fd; border: 2px solid #37517e; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <span style="font-size: 16px; color: #555; font-weight: 600;">Estimated Wine Quality Score:</span>
+                    <!-- Replace {{ prediction }} with your Flask/Jinja variable -->
+                    <span style="font-size: 36px; font-weight: 700; color: #37517e;">{{ prediction }}</span>
+                </div>
+
+                <!-- Input Parameters Summary -->
+                <div style="text-align: left;">
+                    <h3 style="margin: 0 0 12px 0; font-size: 18px; color: #444; border-bottom: 2px solid #ddd; padding-bottom: 6px;">Submitted Features</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; font-size: 14px; color: #555;">
+                        <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #e0e0e0;"><strong>Fixed Acidity:</strong> {{ fixed_acidity }}</div>
+                        <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #e0e0e0;"><strong>Volatile Acidity:</strong> {{ volatile_acidity }}</div>
+                        <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #e0e0e0;"><strong>Citric Acid:</strong> {{ citric_acid }}</div>
+                        <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #e0e0e0;"><strong>Residual Sugar:</strong> {{ residual_sugar }}</div>
+                        <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #e0e0e0;"><strong>Chlorides:</strong> {{ chlorides }}</div>
+                        <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #e0e0e0;"><strong>Free Sulfur Dioxide:</strong> {{ free_sulfur_dioxide }}</div>
+                        <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #e0e0e0;"><strong>Total Sulfur Dioxide:</strong> {{ total_sulfur_dioxide }}</div>
+                        <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #e0e0e0;"><strong>Density:</strong> {{ density }}</div>
+                        <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #e0e0e0;"><strong>pH:</strong> {{ pH }}</div>
+                        <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #e0e0e0;"><strong>Sulphates:</strong> {{ sulphates }}</div>
+                        <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #e0e0e0;"><strong>Alcohol:</strong> {{ alcohol }}</div>
+                    </div>
+                </div>
+
+                <!-- Back / Predict Again Button -->
+                <div style="margin-top: 10px;">
+                    <a href="/" style="display: inline-block; background-color: #37517e; color: #ffffff; font-size: 16px; font-weight: 600; padding: 12px 30px; border-radius: 5px; text-decoration: none; transition: background 0.3s ease;">
+                        Predict Another
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
