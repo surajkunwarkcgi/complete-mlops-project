@@ -1,0 +1,6 @@
+.venv
+venv/
+logs/
+artifacts/
+.env
+*.env
