@@ -45,9 +45,10 @@ def run_training_job(role_arn: str, bucket: str, region: str, data_s3_uri: str) 
         output_path = f"s3://{bucket}/wine-quality/model-artifacts",
         base_job_name = "wine-quality-training",
         hyperparameters = {
-            "alpha"         : 0.2,
-            "l1-ration"     : 0.1,
-            "target-column" : "quality"
+            "alpha"          : 0.2,
+            "l1-ratio"       : 0.1,
+            "target-column"  : "quality",
+            "output-s3-path" : f"s3://{bucket}/wine-quality/model-artifacts"
         },
         environment = {
             "MLFLOW_TRACKING_URI"      : os.environ.get("MLFLOW_TRACKING_URI", ""),
@@ -106,7 +107,7 @@ def main():
     with open("model_s3_uri.txt", "w") as f:
         f.write(model_s3_uri)
 
-    logger.info(f"Wrote model S3 URI to model_s3_uri.txt: {model-model_s3_uri}")
+    logger.info(f"Wrote model S3 URI to model_s3_uri.txt: {model_s3_uri}")
 
 if __name__ == "__main__":
     main()

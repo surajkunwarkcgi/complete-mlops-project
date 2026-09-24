@@ -28,7 +28,7 @@ spec:
           # GitHub Actions auto-updates this image tag on every push
           # TODO: Replace <YOUR-AWS-ACCOUNT-ID> with your 12-digit AWS account ID
 
-          image: <YOUR-AWS-ACCOUNT-ID>.dkr.ecr.ap-northeast-1.amazonaws.com/wine-quality-predictor:latest
+          image: REMOVED.dkr.ecr.ap-northeast-1.amazonaws.com/wine-quality-predictor:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -42,6 +42,10 @@ spec:
           env:
             - name: FLASK_DEBUG
               value: "false"
+            - name: AWS_DEFAULT_REGION
+              value: "ap-northeast-1"
+            - name: SAGEMAKER_BUCKET
+              value: "sagemaker-mlops"
             - name: MLFLOW_TRACKING_URI
               valueFrom:
                 secretKeyRef:

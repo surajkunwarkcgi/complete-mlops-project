@@ -13,7 +13,7 @@ import os
 import logging
 import boto3
 
-from sagemaker.model_monitor import DefaultModelMonitor, CronExpressionGenerator
+from sagemaker.model_monitor import DefaultModelMonitor, CronExpressionGenerator, BatchTransformInput
 from sagemaker.model_monitor.dataset_format import DatasetFormat
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -53,9 +53,13 @@ def create_monitoring_schedule(monitor: DefaultModelMonitor, bucket: str, baseli
 
     monitor.create_monitoring_schedule(
         monitor_schedule_name = "wine-quality-data-monitor",
-        endpoint_input = capture_s3_uri,
+        batch_transform_input = BatchTransformInput(
+            data_captured_destination_s3_uri = capture_s3_uri,
+            dataset_format = DatasetFormat.csv(header=True),
+            destination = "opt/ml/precessing/input",
+        ),
         output_s3_uri = monitor_s3_uri,
-        statistics = f"{baseline_results_uri}/stastistics.json",
+        statistics = f"{baseline_results_uri}/statistics.json",
         constraints = f"{baseline_results_uri}/constraints.json",
         schedule_cron_expression = CronExpressionGenerator.daily(),
         enable_cloudwatch_metrics = True
@@ -79,7 +83,7 @@ def create_cloudwatch_alarm(bucket: str, region: str):
 
     # Cloudwatch alarm on SageMaker Model Monitor metric
     cw.put_metric_alarm(
-        AlarmName = "WineQualityModelDriftDetected"
+        AlarmName = "WineQualityModelDriftDetected",
         AlarmDescription = "Fires when Model Monitor detects data drift in wine quality predictions",
         Namespace = "aws/sagemaker/Endpoints/data-metrics",
         MetricName = "feature_baseline_drift_distance",
@@ -90,7 +94,7 @@ def create_cloudwatch_alarm(bucket: str, region: str):
         Statistic = "Average",
         Period = 86400,  # 1 day
         EvaluationPeriods = 1,
-        Threshold = 1.0  # 1 violation triggers alarm
+        Threshold = 1.0,  # 1 violation triggers alarm
         ComparisonOperator = "GreaterThanOrEqualToThreshold",
         AlarmActions = [topic_arn],
         TreatMissingData = "notBreaching"

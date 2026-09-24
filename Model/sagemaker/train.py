@@ -34,9 +34,9 @@ def eval_metrics(actual, pred):
     rmse = np.sqrt(mean_squared_error(actual, pred))
     mae  = mean_absolute_error(actual, pred)
     r2   = r2_score(actual, pred)
-     return rmse, mae, r2
+    return rmse, mae, r2
 
-def register_model_to_sagemaker(model_package_group, metrics, model_s3_uri, region):
+def register_model_to_sagemaker(model_package_group, metrics, model_s3_uri, metrics_s3_uri, region):
     """Register trained model to SageMaker Model Registry with PendingManualApproval."""
     sm_client = boto3.client("sagemaker", region_name = region)
 
@@ -71,7 +71,8 @@ def register_model_to_sagemaker(model_package_group, metrics, model_s3_uri, regi
             "ModelQuality": {
                 "Statistics": {
                     "ContentType": "application/json",
-                    "S3Uri": f"{model_s3_uri}/metrics.json"
+                    #"S3Uri": f"{model_s3_uri}/metrics.json"
+                    "S3Uri": metrics_s3_uri
                 }
             }
         }
@@ -89,6 +90,8 @@ def main():
     parser.add_argument("--target-column", type=str, default="quality")
     parser.add_argument("--model-package-group", type=str, default="WineQualityPredictor")
     parser.add_argument("--region", type=str, default=os.environ.get("AWS_DEFAULT_REGION", "ap-northeast-1"))
+    # SageMaker output path passed from sagemaker_pipeline.py so we can build the model S3 URI
+    parser.add_argument("--output-s3-path", type-str, default="")
     args = parser.parse_args()
 
     # Load Data
@@ -118,7 +121,7 @@ def main():
     # Evaluate
     predictions = model.predict(test_x)
     rmse, mae, r2 = eval_metrics(test_y, predictions)
-    metrics = {"rmse": rmse, "mae": maem "r2": r2}
+    metrics = {"rmse": rmse, "mae": mae, "r2": r2}
     logger.info(f"Metrics: RMSE={rmse:.4f} MAE={mae:.4f} R2={r2:.4f}")
 
     # Save model artifact
@@ -131,6 +134,31 @@ def main():
     metrics_path = os.path.join(MODEL_DIR, "metrics.json")
     with open(metrics_path, "w") as f:
         json.dump(metrics, f, indent=2)
+
+    # Register model to SageMaker Model Registry (PendingManualApproval)
+    # SageMaker injects SM_TRAINING_ENV with the job name so we can build the S3 URI
+    training_env = json.loads(os.environ.get("SM_TRAINING_ENV", "{}"))
+    job_name = training_env.get("job_name", "")
+    if args.output_s3_path and job_name:
+        model_s3_uri = f"{args.output_s3_path}/{job_name}/output/model.tar.gz"
+        
+        # metrics.json is packed inside model.tar.gz so it is not a standalone S3 object.
+        # Upload it directly so the Model Registry has a valid, readable S3 URI.
+        bucket_name = args.output_s3_path.split("/")[2]
+        metrics_s3_key = f"wine-quality/model-artifacts/{job_name}/metrics.json"
+        s3_client = boto3.client("s3", region_name=args.region)
+        s3_client.put_object(
+            Bucket      = bucket_name,
+            Key         = metrics_s3_key,
+            Body        = json.dumps(metrics, indent=2).encode("utf-8"),
+            ContentType = "application/json"
+        )
+        metrics_s3_uri = f"s3://{bucket_name}/{metrics_s3_key}"
+        logger.info(f"Metrics uploaded to {metrics_s3_uri}")
+
+        register_model_to_sagemaker(args.model_package_group, metrics, model_s3_uri, metrics_s3_uri, args.region)
+    else:
+        logger.warning("Skipping Model Registry: --output-s3-path or SM_TRAINING_ENV job_name not available")    
 
     # Log to MLFLOW
     mlflow_uri       = os.environ.get("MLFLOW_TRACKING_URI")

@@ -3,6 +3,10 @@ name: CI - Train, Build and Deploy
 on:
   push:
     branches: [main]
+    # Ignore the automated image-tag commit so it doesn't re-register a training run.
+    # The commit message also carries [skip ci] as a second guard
+    paths-ignore:
+      - "Model/k8s/deployment.yaml"
   pull_request:
     branches: [main]  
 
@@ -17,6 +21,11 @@ jobs:
   train:
     name: SageMaker Training Job
     runs-on: ubuntu-latest
+
+    # All run steps execute from Model/ so paths in scripts stay unchanged
+    defaults:
+      run:
+        working-directory: Model
 
     # Required for OIDC token generation
     permissions:
@@ -39,8 +48,8 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           # TODO: Replace with output of: terraform output github_actions_role_arn
-          role-to-assume: arn:aws:iam::<account-id>:role/retail-dev-github-actions-role
-          aws-region: ${{ env. AWS_REGION }}
+          role-to-assume: arn:aws:iam::REMOVED:role/retail-dev-github-actions-role
+          aws-region: ${{ env.AWS_REGION }}
           # No aws-access-key-id or aws-secret-access-key needed
 
       - name: Read all secrets from AWS Secrets Manager
@@ -118,7 +127,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: model-artifact
-          path: artifacts/model_trainer/model.joblib
+          path: Model/artifacts/model_trainer/model.joblib
           retention-days: 1
 
 
@@ -140,13 +149,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: model-artifact
-          path: artifacts/model_trainer/
+          path: Model/artifacts/model_trainer/
 
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::<account-id>:role/retail-dev-github-actions-role
-          aws-region: ${{ env. AWS_REGION }}
+          role-to-assume: arn:aws:iam::REMOVED:role/retail-dev-github-actions-role
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -182,5 +191,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.gmail.com"
           git add k8s/deployment.yaml
-          git commit -m "ci: update image tag to $IMAGE_TAG"
+          git commit -m "ci: update image tag to $IMAGE_TAG [skip ci]"
           git push

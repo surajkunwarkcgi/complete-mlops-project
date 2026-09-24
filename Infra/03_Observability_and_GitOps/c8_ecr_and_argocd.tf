@@ -51,8 +51,8 @@ resource "aws_iam_policy" "wine_quality_predictor_secrets" {
     Statement = [{
         Effect = "Allow"
         Action = [
-            "secretsmanager: GetSecretValue",
-            "secretsmanager: DescribeSecret"
+            "secretsmanager:GetSecretValue",
+            "secretsmanager:DescribeSecret"
         ]
         Resource = "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:mlflow-tracking-secrets*"
     }]

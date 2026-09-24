@@ -11,9 +11,9 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from src.datascience.entity.config_entity import ModelEvaluationConfig
 from src.datascience.utils.common import read_yaml, create_directories, save_json
 
-os.environ["MLFLOW_TRACKING_URI"]="https://dagshub.com/kunwarsuraj2019/datascience-project.mlflow"
-os.environ["MLFLOW_TRACKING_USERNAME"]="kunwarsuraj2019"
-os.environ["MLFLOW_TRACKING_PASSWORD"]="699b5b82b520a101714a9fe2dbfef42689b673eb"
+# os.environ["MLFLOW_TRACKING_URI"]="https://dagshub.com/kunwarsuraj2019/datascience-project.mlflow"
+# os.environ["MLFLOW_TRACKING_USERNAME"]="kunwarsuraj2019"
+# os.environ["MLFLOW_TRACKING_PASSWORD"]="699b5b82b520a101714a9fe2dbfef42689b673eb"
 
 class ModelEvaluation:
     def __init__(self, config: ModelEvaluationConfig):

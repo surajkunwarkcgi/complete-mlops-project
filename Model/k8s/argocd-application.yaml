@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/surajkunwarkcgi/complete-mlops-project
     targetRevision: main
-    path: k8s  # ArgoCD watches only this subfolder
+    path: Model/k8s  # ArgoCD watches only this subfolder
   destination:
     server: https://kubernetes.default.svc
     namespace: mlops

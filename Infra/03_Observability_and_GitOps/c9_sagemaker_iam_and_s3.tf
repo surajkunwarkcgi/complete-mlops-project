@@ -54,7 +54,7 @@ resource "aws_iam_role" "sagemaker_execution" {
         Statement = [{
             Effect = "Allow"
             Principal = { Service = "sagemaker.amazonaws.com" }
-            Action = "sts: AssumeRole"
+            Action = "sts:AssumeRole"
         }]
     })
     
