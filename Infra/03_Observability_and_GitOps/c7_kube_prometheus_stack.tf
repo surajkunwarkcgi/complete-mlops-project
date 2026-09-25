@@ -99,7 +99,7 @@ resource "helm_release" "kube_prometheus_stack" {
         },
         # node-exporter: use EKS addon, disable chart's own DaemonSet
         {
-        name = "prometheus-node-exporter.enabled"
+        name = "nodeExporter.enabled"
         value = "false"
         },
         # kube-state-metrics: use EKS addon, disable chart's own deployment
@@ -113,8 +113,6 @@ resource "helm_release" "kube_prometheus_stack" {
         value = "false"
         }
     ]
-
-    tags = var.tags
 }
 
 # Outputs

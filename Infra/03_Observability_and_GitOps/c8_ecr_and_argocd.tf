@@ -119,7 +119,6 @@ resource "helm_release" "argocd" {
         value = "256Mi"
       }
    ]
-   tags = var.tags
 }
 
 # Outputs

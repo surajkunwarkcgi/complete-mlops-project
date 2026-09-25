@@ -14,8 +14,8 @@ data "aws_eks_addon_version" "prometheus_node_exporter_latest" {
 # EKS Add-on: Prometheus Node Exporter
 resource "aws_eks_addon" "prometheus_node_exporter" {
   cluster_name = data.terraform_remote_state.eks.outputs.eks_cluster_id
-  addon_name = "prometheus_node_exporter"
-  #addon_name = "prometheus-node-exporter"
+  #addon_name = "prometheus_node_exporter"
+  addon_name = "prometheus-node-exporter"
   addon_version = data.aws_eks_addon_version.prometheus_node_exporter_latest.version
   #conflict resolution
   resolve_conflicts_on_create = "OVERWRITE"

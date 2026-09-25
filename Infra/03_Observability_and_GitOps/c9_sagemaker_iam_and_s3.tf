@@ -1,6 +1,6 @@
 # S3 Bucket for SageMaker artifacts + prediction captures
 resource "aws_s3_bucket" "sagemaker" {
-  bucket = "sagemaker-mlops"
+  bucket = "sagemaker-mlops-suraj"
   tags = var.tags
 }
 
