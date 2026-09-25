@@ -1,0 +1,5 @@
+[core]
+    remote = s3remote
+['remote "s3remote"']
+    url = s3://sagemaker-mlops-suraj/wine-quality/dvc-cache
+    region = ap-northeast-1

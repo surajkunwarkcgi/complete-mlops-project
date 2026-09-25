@@ -1,6 +1,6 @@
 .venv
 venv/
 logs/
-artifacts/
+#artifacts/
 .env
 *.env
