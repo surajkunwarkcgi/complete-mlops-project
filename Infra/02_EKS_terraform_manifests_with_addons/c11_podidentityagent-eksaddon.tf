@@ -16,7 +16,7 @@ resource "aws_eks_addon" "podidentity" {
   depends_on = [ aws_eks_node_group.private_nodes ]
   cluster_name = aws_eks_cluster.main.id
   addon_name = "eks-pod-identity-agent"
-  resolve_conflicts_on_create = "overwrite"
+  resolve_conflicts_on_create = "OVERWRITE"
   resolve_conflicts_on_update = "OVERWRITE"
   addon_version = data.aws_eks_addon_version.pia_latest.version
 }
