@@ -12,7 +12,7 @@ python-box
 gunicorn
 prometheus-flask-exporter
 boto3
-sagemaker
+sagemaker[scikit-learn]>=2.200.0
 dvc
 dvc-s3
 python-dotenv
