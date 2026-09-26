@@ -36,7 +36,7 @@ def run_training_job(role_arn: str, bucket: str, region: str, data_s3_uri: str) 
 
     estimator = SKLearn(
         entry_point = "train.py",
-        source_dir = "sagemaker",
+        source_dir = "aws_sagemaker",
         role = role_arn,
         instance_type = "ml.m5.large",
         instance_count = 1,
