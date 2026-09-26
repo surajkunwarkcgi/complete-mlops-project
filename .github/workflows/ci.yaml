@@ -106,7 +106,7 @@ jobs:
       - name: Trigger SageMaker Training Job
         env:
           AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
-        run: python sagemaker/sagemaker_pipeline.py
+        run: python aws_sagemaker/sagemaker_pipeline.py
 
       - name: Wait for Model Registry approval
         env:
