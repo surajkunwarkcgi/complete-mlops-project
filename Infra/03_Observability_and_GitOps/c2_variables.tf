@@ -2,7 +2,7 @@
 variable "aws_region" {
   description = "AWS Region to deploy resources"
   type = string
-  default = "ap-northeast-1"
+  default = "us-east-1"
 }
 
 # Environment & Business Division Info

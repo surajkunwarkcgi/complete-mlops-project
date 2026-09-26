@@ -1,5 +1,5 @@
 [core]
     remote = s3remote
 ['remote "s3remote"']
-    url = s3://sagemaker-mlops-suraj/wine-quality/dvc-cache
-    region = ap-northeast-1
+    url = s3://sagemaker-mlops-suraj-useast1/wine-quality/dvc-cache
+    region = us-east-1

@@ -1,6 +1,6 @@
 # S3 Bucket for SageMaker artifacts + prediction captures
 resource "aws_s3_bucket" "sagemaker" {
-  bucket = "sagemaker-mlops-suraj"
+  bucket = "sagemaker-mlops-suraj-useast1"
   tags = var.tags
 }
 
@@ -259,6 +259,40 @@ resource "aws_iam_policy" "github_actions_s3" {
 
 resource "aws_iam_role_policy_attachment" "github_actions_s3" {
   policy_arn = aws_iam_policy.github_actions_s3.arn
+  role = aws_iam_role.github_actions.name
+}
+
+# SageMaker - create/describe training jobs and pass roles
+resource "aws_iam_policy" "github_actions_sagemaker" {
+  name = "${local.name}-github-actions-sagemaker-policy"
+  description = "Allow GitHub Actions to trigger SageMaker training jobs"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+        {
+            Effect = "Allow"
+            Action = [
+                "sagemaker:CreateTrainingJob",
+                "sagemaker:DescribeTrainingJob",
+                "sagemaker:StopTrainingJob",
+                "sagemaker:CreateModelPackageGroup",
+                "sagemaker:CreateModelPackage",
+                "sagemaker:DescribeModelPackage"
+            ]
+            Resource = "arn:aws:sagemaker:${var.aws_region}:${local.account_id}:*"
+        },
+        {
+            Effect = "Allow"
+            Action = "iam:PassRole"
+            Resource = aws_iam_role.sagemaker_execution.arn
+        }
+      ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "github_actions_sagemaker" {
+  policy_arn = aws_iam_policy.github_actions_sagemaker.arn
   role = aws_iam_role.github_actions.name
 }
 
