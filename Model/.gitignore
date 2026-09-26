@@ -4,3 +4,15 @@ logs/
 #artifacts/
 .env
 *.env
+# Ignore Terraform local working directory and binaries
+**/.terraform/
+.terraform
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
