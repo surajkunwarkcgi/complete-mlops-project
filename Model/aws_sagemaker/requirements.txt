@@ -1,0 +1,5 @@
+  mlflow
+  boto3
+  numpy
+  pandas
+  scikit-learn>=1.2
