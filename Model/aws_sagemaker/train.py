@@ -16,6 +16,7 @@ import pandas as pd
 import mlflow
 import mlflow.sklearn
 import boto3
+import time
 
 from pathlib import Path
 from sklearn.linear_model import ElasticNet
@@ -155,6 +156,9 @@ def main():
         )
         metrics_s3_uri = f"s3://{bucket_name}/{metrics_s3_key}"
         logger.info(f"Metrics uploaded to {metrics_s3_uri}")
+
+        logger.info("Waiting for S3 to finalize model artifact...")
+        time.sleep(10)
 
         register_model_to_sagemaker(args.model_package_group, metrics, model_s3_uri, metrics_s3_uri, args.region)
     else:
