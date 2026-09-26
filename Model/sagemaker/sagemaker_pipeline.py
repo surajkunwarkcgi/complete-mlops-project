@@ -9,7 +9,7 @@ import os
 import logging
 import boto3
 
-from sagemaker.sklearn.estimator import SKLearn
+from sagemaker.sklearn import SKLearn
 from sagemaker.inputs import TrainingInput
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
