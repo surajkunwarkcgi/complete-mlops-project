@@ -60,7 +60,7 @@ def index():
             # Log to S3 for SageMaker Model Monitor (non-blocking)
             prediction_capture.capture(features=values, prediction=float(predict[0]))
 
-            return render_template("results.html", prediction=str(predict))
+            return render_template("results.html", prediction=f"{predict[0]:.2f}", **values)
 
         except Exception as e:
             logging.exception("Prediction failed")
