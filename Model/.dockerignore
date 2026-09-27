@@ -23,5 +23,8 @@ Dockerfile
 
 # Local logs & data artifacts
 *.log
-artifacts/
+artifacts/data_ingestion/
+artifacts/data_validation/
+artifacts/data_transformation/
+artifacts/model_evaluation/
 logs/

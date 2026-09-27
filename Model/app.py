@@ -4,7 +4,7 @@ import numpy as np
 from flask import Flask, render_template, request
 from prometheus_flask_exporter import PrometheusMetrics
 from src.datascience.pipeline.prediction_pipeline import PredictionPipeline
-from sagemaker.prediction_capture import prediction_capture
+from aws_sagemaker.prediction_capture import prediction_capture
 
 app = Flask(__name__) # initializing a flask app
 metrics = PrometheusMetrics(app) # exposes /metrics endpoint for Prometheus scraping
