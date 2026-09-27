@@ -50,9 +50,12 @@ def register_model_to_sagemaker(model_package_group, metrics, model_s3_uri, metr
 
         logger.info(f"Created model package group: {model_package_group}")
     
-    except sm_client.exceptions.ConflictException:
-        logger.info(f"Model package group already exists: {model_package_group}")
-
+    except sm_client.exceptions.ClientError as e:
+        if e.response["Error"]["Code"] == "ValidationException":
+            logger.info(f"Model package group already exists: {model_package_group}")
+        else:
+            raise
+        
     response = sm_client.create_model_package(
         ModelPackageGroupName = model_package_group,
         ModelPackageDescription = f"ElasticNet wine quality predictor - RMSE = {metrics['rmse']:.4f}",
