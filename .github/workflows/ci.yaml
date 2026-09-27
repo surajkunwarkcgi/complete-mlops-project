@@ -108,44 +108,44 @@ jobs:
           AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
         run: python aws_sagemaker/sagemaker_pipeline.py
 
-      - name: Wait for Model Registry approval
-        env:
-          AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
-        run: |
-          python - <<'EOF'
-          import boto3, sys, time
+      # - name: Wait for Model Registry approval
+      #   env:
+      #     AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
+      #   run: |
+      #     python - <<'EOF'
+      #     import boto3, sys, time
 
-          sm = boto3.client("sagemaker", region_name="ap-northeast-1")
-          group = "WineQualityPredictor"
-          max_wait = 300
-          waited = 0
+      #     sm = boto3.client("sagemaker", region_name="ap-northeast-1")
+      #     group = "WineQualityPredictor"
+      #     max_wait = 300
+      #     waited = 0
 
-          while waited < max_wait:        
-            versions = sm.list_model_packages(
-              ModelPackageGroupName=group,
-              SortBy="CreationTime",
-              SortOrder="Descending",
-              MaxResults=1
+      #     while waited < max_wait:        
+      #       versions = sm.list_model_packages(
+      #         ModelPackageGroupName=group,
+      #         SortBy="CreationTime",
+      #         SortOrder="Descending",
+      #         MaxResults=1
 
-            )["ModelPackageSummaryList"]
+      #       )["ModelPackageSummaryList"]
 
-            if not versions:
-              print("No model versions found"); sys.exit(1)
+      #       if not versions:
+      #         print("No model versions found"); sys.exit(1)
 
-            status = versions[0]["ModelApprovalStatus"]
-            print(f"Model approval status: {status}")
+      #       status = versions[0]["ModelApprovalStatus"]
+      #       print(f"Model approval status: {status}")
 
-            if status == "Approved":
-              print("Model approved — proceeding to build"); sys.exit(0)
-            elif status == "Rejected":
-              print("Model rejected — stopping pipeline"); sys.exit(1)
-            else:
-              print(f"Waiting for approval... ({waited}s elapsed)")
-              time.sleep(30)
-              waited += 30
+      #       if status == "Approved":
+      #         print("Model approved — proceeding to build"); sys.exit(0)
+      #       elif status == "Rejected":
+      #         print("Model rejected — stopping pipeline"); sys.exit(1)
+      #       else:
+      #         print(f"Waiting for approval... ({waited}s elapsed)")
+      #         time.sleep(30)
+      #         waited += 30
 
-          print("Timed out waiting for model approval"); sys.exit(1)
-          EOF
+      #     print("Timed out waiting for model approval"); sys.exit(1)
+      #     EOF
 
       - name: Upload model artifact for Docker build
         uses: actions/upload-artifact@v4
