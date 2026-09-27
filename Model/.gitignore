@@ -1,6 +1,8 @@
 .venv
 venv/
 logs/
+__pycache__/
+*.pyc
 #artifacts/
 .env
 *.env
@@ -16,3 +18,7 @@ override.tf.json
 *_override.tf
 *_override.tf.json
 .terraform.lock.hcl
+
+# macOS metadata
+.DS_Store
+**/.DS_Store
