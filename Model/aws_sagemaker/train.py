@@ -160,18 +160,19 @@ def main():
         metrics_s3_uri = f"s3://{bucket_name}/{metrics_s3_key}"
         logger.info(f"Metrics uploaded to {metrics_s3_uri}")
 
-        max_retries = 5
-        for attempt in range(max_retries):
-            try:
-                logger.info(f"Attempting model registration (attempt {attempt+1}/{max_retries})")
-                register_model_to_sagemaker(args.model_package_group, metrics, model_s3_uri, metrics_s3_uri, args.region)
-                break
-            except Exception as e:
-                if "Cannot find S3 object" in str(e) and attempt < max_retries - 1:
-                    logger.warning(f"S3 object not ready yet, waiting 10s...")
-                    time.sleep(10)
-                else:
-                    raise
+        logger.info(f"Model artifact saved to: {model_s3_uri}")
+        # max_retries = 5
+        # for attempt in range(max_retries):
+        #     try:
+        #         logger.info(f"Attempting model registration (attempt {attempt+1}/{max_retries})")
+        #         #register_model_to_sagemaker(args.model_package_group, metrics, model_s3_uri, metrics_s3_uri, args.region)
+        #         break
+        #     except Exception as e:
+        #         if "Cannot find S3 object" in str(e) and attempt < max_retries - 1:
+        #             logger.warning(f"S3 object not ready yet, waiting 10s...")
+        #             time.sleep(10)
+        #         else:
+        #             raise
 
         #register_model_to_sagemaker(args.model_package_group, metrics, model_s3_uri, metrics_s3_uri, args.region)
     else:
