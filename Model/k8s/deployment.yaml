@@ -28,7 +28,7 @@ spec:
           # GitHub Actions auto-updates this image tag on every push
           # TODO: Replace <YOUR-AWS-ACCOUNT-ID> with your 12-digit AWS account ID
 
-          image: 980921753893.dkr.ecr.us-east-1.amazonaws.com/wine-quality-predictor:4f1a1f0f328a5013c544b03a3d76c161af9bf6e2
+          image: 980921753893.dkr.ecr.us-east-1.amazonaws.com/wine-quality-predictor:8f538001239d6671c128b1a7e584fda0990b119c
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
