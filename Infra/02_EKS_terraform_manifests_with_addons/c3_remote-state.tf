@@ -5,7 +5,7 @@ data "terraform_remote_state" "vpc" {
   backend = "s3"
 
   config = {
-    bucket = "terraform-state-bucket-suraj"
+    bucket = "terraform-state-bucket-suraj-us"
     key = "vpc/dev/terraform.tfstate"
     region = var.aws_region
   }

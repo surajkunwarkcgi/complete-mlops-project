@@ -2,7 +2,7 @@
 data "terraform_remote_state" "vpc" {
   backend = "s3"
   config = {
-    bucket = "terraform-state-bucket-suraj"     # Name of the remote S3 bucket where the VPC state is stored
+    bucket = "terraform-state-bucket-suraj-us"     # Name of the remote S3 bucket where the VPC state is stored
     key    = "vpc/dev/terraform.tfstate"        # Path to the VPC tfstate file within the bucket
     region = var.aws_region
   }

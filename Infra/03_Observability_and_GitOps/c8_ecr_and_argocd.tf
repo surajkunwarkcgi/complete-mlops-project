@@ -54,7 +54,9 @@ resource "aws_iam_policy" "wine_quality_predictor_secrets" {
             "secretsmanager:GetSecretValue",
             "secretsmanager:DescribeSecret"
         ]
-        Resource = "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:mlflow-tracking-secrets*"
+        #Resource = "arn:aws:secretsmanager:${var.aws_region}:${local.account_id}:secret:mlflow-tracking-secrets*"
+        # Secret is owned by Infra/04_Sagemaker_minimal - use its exact ARN from remote state
+        Resource = data.terraform_remote_state.sagemaker.outputs.mlflow_secret_arn
     }]
   })
 }

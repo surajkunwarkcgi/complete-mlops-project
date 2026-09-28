@@ -1,4 +1,4 @@
-aws_region = "ap-northeast-1"
+aws_region = "us-east-1"
 environment_name = "staging"
 cluster_name = "eksdemo1"
 cluster_service_ipv4_cidr = "172.21.0.0/16"

@@ -93,7 +93,7 @@ def main():
     parser.add_argument("--l1-ratio", type=float, default=0.1)
     parser.add_argument("--target-column", type=str, default="quality")
     parser.add_argument("--model-package-group", type=str, default="WineQualityPredictor")
-    parser.add_argument("--region", type=str, default=os.environ.get("AWS_DEFAULT_REGION", "ap-northeast-1"))
+    parser.add_argument("--region", type=str, default=os.environ.get("AWS_DEFAULT_REGION", "us-east-1"))
     # SageMaker output path passed from sagemaker_pipeline.py so we can build the model S3 URI
     parser.add_argument("--output-s3-path", type=str, default="")
     args = parser.parse_args()

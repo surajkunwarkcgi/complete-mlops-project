@@ -43,7 +43,7 @@ spec:
             - name: FLASK_DEBUG
               value: "false"
             - name: AWS_DEFAULT_REGION
-              value: "ap-northeast-1"
+              value: "us-east-1"
             - name: SAGEMAKER_BUCKET
               value: "sagemaker-mlops"
             - name: MLFLOW_TRACKING_URI

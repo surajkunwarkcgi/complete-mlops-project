@@ -25,9 +25,9 @@ terraform {
 
   # Remtote backend configuration using S3
   backend "s3" {
-    bucket = "terraform-state-bucket-suraj"
+    bucket = "terraform-state-bucket-suraj-us"
     key = "eks/dev/terraform.tfstate"
-    region = "ap-northeast-1"
+    region = "us-east-1"
     encrypt = true
     use_lockfile = true
   }

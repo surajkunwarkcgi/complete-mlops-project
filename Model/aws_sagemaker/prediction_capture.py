@@ -28,7 +28,7 @@ FEATURE_COLUMNS = [
 class PredictionCapture:
     def __init__(self):
         self.bucket = os.environ.get("SAGEMAKER_BUCKET")
-        self.region = os.environ.get("AWS_DEFAULT_REGION", "ap-northeast-1")
+        self.region = os.environ.get("AWS_DEFAULT_REGION", "us-east-1")
         self.enabled = bool(self.bucket)
 
         if self.enabled:
