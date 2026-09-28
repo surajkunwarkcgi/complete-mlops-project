@@ -9,11 +9,11 @@ resource "kubernetes_manifest" "node_exporter_servicemonitor" {
     kind = "ServiceMonitor"
     metadata = {
       name = "prometheus-node-exporter"
-      namespace = "kube-system"
+      namespace = "prometheus-node-exporter"
     }
     spec = {
       namespaceSelector = {
-        matchNames = ["kube-system"]
+        matchNames = ["prometheus-node-exporter"]
       }
       selector = {
         matchLabels = {
